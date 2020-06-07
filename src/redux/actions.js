@@ -1,5 +1,3 @@
-import Axios from "axios";
-
 export const USER_ACTIONS = {
   FETCH_USERS_BEGIN: "FETCH_USERS_BEGIN",
   FETCH_USERS_SUCCESS: "FETCH_USERS_SUCCESS",
