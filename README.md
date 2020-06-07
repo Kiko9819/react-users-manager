@@ -4,6 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `json-server DB/db.json`
+To run a local database for users management
+You can install json-server as a global dependency
+by running this command `npm install -g json-server`
+
 ### `npm start`
 
 Runs the app in the development mode.<br />
