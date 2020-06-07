@@ -31,6 +31,11 @@ class Navbar extends Component {
                 Users
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/stats">
+                Stats
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>
