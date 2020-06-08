@@ -1,22 +1,3 @@
 {
-  "users": [
-    {
-      "id": 2,
-      "email": "asdfasdf",
-      "name": "asdasfd",
-      "address": {
-        "street": "asdf",
-        "suite": "asdfsf"
-      }
-    },
-    {
-      "email": "kris@gmail.com",
-      "name": "Kristiyan",
-      "address": {
-        "street": "asdf",
-        "suite": "asdf"
-      },
-      "id": 3
-    }
-  ]
+  "users": []
 }

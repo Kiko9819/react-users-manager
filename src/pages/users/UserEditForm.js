@@ -5,23 +5,119 @@ export class UserEditForm extends Component {
     super(props);
     this.state = {
       selectedUser: props.selectedUser,
+      fields: {},
+      errors: {},
     };
+  }
 
-    this.handler = this.handler.bind(this);
+  handleValidation() {
+    let fields = this.state.fields;
+    let errors = {};
+    let formIsValid = true;
+
+    //Name
+    if (!fields["name"] || fields["name"] === '') {
+      formIsValid = false;
+      errors["name"] = "This field is required";
+    }
+
+    if (typeof fields["name"] !== "undefined") {
+      if (fields["name"] !== '' && !fields["name"].match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["name"] = "Only letters are allowed";
+      }
+    }
+
+    //Email
+    if (!fields["email"] || fields["email"] === '') {
+      formIsValid = false;
+      errors["email"] = "This field is required";
+    }
+
+    if (fields["email"] !== '' && typeof fields["email"] !== "undefined") {
+      let lastAtPos = fields["email"].lastIndexOf("@");
+      let lastDotPos = fields["email"].lastIndexOf(".");
+
+      if (
+        !(
+          lastAtPos < lastDotPos &&
+          lastAtPos > 0 &&
+          fields["email"].indexOf("@@") === -1 &&
+          lastDotPos > 2 &&
+          fields["email"].length - lastDotPos > 2
+        )
+      ) {
+        formIsValid = false;
+        errors["email"] = "Email is not valid";
+      }
+    }
+
+    //Street
+    if (!fields["street"] || fields["street"] === '') {
+      formIsValid = false;
+      errors["street"] = "This field is required";
+    }
+
+    if (typeof fields["street"] !== "undefined") {
+      if (fields["street"] !== '' && !fields["street"].match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["street"] = "Only letters are allowed";
+      }
+    }
+
+    //Street
+    if (!fields["suite"] || fields["suite"] === '') {
+      formIsValid = false;
+      errors["suite"] = "This field is required";
+    }
+
+    if (typeof fields["suite"] !== "undefined") {
+      if (fields["suite"] !== '' && !fields["suite"].match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        errors["suite"] = "Only letters are allowed";
+      }
+    }
+
+    this.setState({ errors });
+    return formIsValid;
+  }
+
+  getFields(nextProps){
+    if(nextProps.selectedUser) {
+      return {
+        name: nextProps.selectedUser.name,
+        email: nextProps.selectedUser.email,
+        street: nextProps.selectedUser.address.street,
+        suite: nextProps.selectedUser.address.suite,
+      };
+    }
+    return {
+      name: undefined,
+      email: undefined,
+      street: undefined,
+      suite: undefined
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       ...this.state,
       selectedUser: nextProps.selectedUser,
+      fields: this.getFields(nextProps),
+      errors: {},
     });
   }
 
-  handler(event) {
+  handler(field, event) {
+    let fields = this.state.fields;
+    fields[field] = event.target.value;
     this.setState({
       ...this.state,
+      fields: fields,
       [event.target.name]: event.target.value,
     });
+    this.handleValidation();
+
   }
 
   emitClear() {
@@ -30,6 +126,10 @@ export class UserEditForm extends Component {
 
   emitSubmit(e) {
     e.preventDefault();
+    if (!this.handleValidation()) {
+      return;
+    }
+
     this.props.onFormSubmit({
       id: this.props.selectedUser ? this.props.selectedUser.id : undefined,
       email: this.refs.emailStringInput.value,
@@ -52,7 +152,7 @@ export class UserEditForm extends Component {
           <input
             type="email"
             ref="emailStringInput"
-            onChange={this.handler}
+            onChange={this.handler.bind(this, "email")}
             defaultValue={
               this.state.selectedUser ? this.state.selectedUser.email : ""
             }
@@ -61,6 +161,7 @@ export class UserEditForm extends Component {
             aria-describedby="emailHelp"
             placeholder="e.g john@gmail.com"
           />
+          <span className="text-danger">{this.state.errors["email"]}</span>
           <small id="emailHelp" className="form-text text-muted">
             We'll never share your email with anyone else.
           </small>
@@ -70,7 +171,7 @@ export class UserEditForm extends Component {
           <input
             type="text"
             ref="nameStringInput"
-            onChange={this.handler}
+            onChange={this.handler.bind(this, "name")}
             defaultValue={
               this.state.selectedUser ? this.state.selectedUser.name : ""
             }
@@ -78,6 +179,7 @@ export class UserEditForm extends Component {
             id="name"
             placeholder="e.g John Doe"
           />
+          <span className="text-danger">{this.state.errors["name"]}</span>
         </div>
 
         <div className="form-group">
@@ -85,7 +187,7 @@ export class UserEditForm extends Component {
           <input
             type="text"
             ref="streetStringInput"
-            onChange={this.handler}
+            onChange={this.handler.bind(this, "street")}
             defaultValue={
               this.state.selectedUser
                 ? this.state.selectedUser.address.street
@@ -95,6 +197,7 @@ export class UserEditForm extends Component {
             id="street"
             placeholder="e.g Hills street"
           />
+          <span className="text-danger">{this.state.errors["street"]}</span>
         </div>
 
         <div className="form-group">
@@ -102,7 +205,7 @@ export class UserEditForm extends Component {
           <input
             type="text"
             ref="suiteStringInput"
-            onChange={this.handler}
+            onChange={this.handler.bind(this, "suite")}
             defaultValue={
               this.state.selectedUser
                 ? this.state.selectedUser.address.suite
@@ -112,6 +215,7 @@ export class UserEditForm extends Component {
             id="suite"
             placeholder="e.g Apt.555"
           />
+          <span className="text-danger">{this.state.errors["suite"]}</span>
         </div>
 
         <button
