@@ -5,6 +5,9 @@ const initialState = {
   selectedUser: null,
   error: null,
   loading: false,
+  created: 0,
+  updated: 0,
+  deleted: 0
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -34,6 +37,7 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         users: [...state.users, action.payload.user],
+        created: state.created + 1
       };
     case USER_ACTIONS.CREATE_USER_FAIL:
       return {
@@ -56,6 +60,7 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         users: state.users.splice(userIndex, 1),
+        updated: state.updated + 1
       };
     case USER_ACTIONS.UPDATE_USER_FAIL:
       return {
@@ -77,12 +82,14 @@ const usersReducer = (state = initialState, action) => {
           loading: false,
           users: state.users.filter((user) => user.id !== action.payload.id),
           selectedUser: null,
+          deleted: state.deleted + 1
         };
       }
       return {
         ...state,
         loading: false,
         users: state.users.filter((user) => user.id !== action.payload.id),
+        deleted: state.deleted + 1
       };
     case USER_ACTIONS.DELETE_USER_FAIL:
       return {

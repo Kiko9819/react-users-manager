@@ -1,7 +1,11 @@
 import React, { Component } from "react";
+import {store} from '../../redux/store';
 
 export default class Stats extends Component {
+
   render() {
+    const {users, created, updated, deleted} = store.getState();
+
     return (
       <div>
           <div className="card mb-4 shadow-sm mt-5">
@@ -10,7 +14,7 @@ export default class Stats extends Component {
             </div>
             <div className="card-body">
               <h1 className="card-title pricing-card-title">
-                0 
+                {users.length}
               </h1>
             </div>
           </div>
@@ -21,7 +25,7 @@ export default class Stats extends Component {
             </div>
             <div className="card-body">
               <h1 className="card-title pricing-card-title">
-                0 
+                {created}
               </h1>
             </div>
           </div>
@@ -31,7 +35,7 @@ export default class Stats extends Component {
             </div>
             <div className="card-body">
               <h1 className="card-title pricing-card-title">
-                0
+                {updated}
               </h1>
             </div>
           </div>
@@ -41,7 +45,7 @@ export default class Stats extends Component {
             </div>
             <div className="card-body">
               <h1 className="card-title pricing-card-title">
-                0
+                {deleted}
               </h1>
             </div>
           </div>
