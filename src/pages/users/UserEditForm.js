@@ -22,7 +22,7 @@ export class UserEditForm extends Component {
     }
 
     if (typeof fields["name"] !== "undefined") {
-      if (fields["name"] !== '' && !fields["name"].match(/^[a-zA-Z]+$/)) {
+      if (fields["name"] !== '' && !fields["name"].match(/^[a-zA-Z ]+$/)) {
         formIsValid = false;
         errors["name"] = "Only letters are allowed";
       }
@@ -52,30 +52,16 @@ export class UserEditForm extends Component {
       }
     }
 
-    //Street
+    // Street
     if (!fields["street"] || fields["street"] === '') {
       formIsValid = false;
       errors["street"] = "This field is required";
     }
 
-    if (typeof fields["street"] !== "undefined") {
-      if (fields["street"] !== '' && !fields["street"].match(/^[a-zA-Z]+$/)) {
-        formIsValid = false;
-        errors["street"] = "Only letters are allowed";
-      }
-    }
-
-    //Street
+    // Suite
     if (!fields["suite"] || fields["suite"] === '') {
       formIsValid = false;
       errors["suite"] = "This field is required";
-    }
-
-    if (typeof fields["suite"] !== "undefined") {
-      if (fields["suite"] !== '' && !fields["suite"].match(/^[a-zA-Z]+$/)) {
-        formIsValid = false;
-        errors["suite"] = "Only letters are allowed";
-      }
     }
 
     this.setState({ errors });
