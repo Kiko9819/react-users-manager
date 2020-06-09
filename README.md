@@ -4,10 +4,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `json-server DB/db.json`
-To run a local database for users management
+### `npm run server`
+To run a local database for users management <br />
 You can install json-server as a global dependency
-by running this command `npm install -g json-server`
+by running this command `npm install -g json-server`<br />
+The `npm run server` script uses json-server so you
+going to have to install it, otherwise - no api<br />
+This command will run the json server on port 3001
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 ### `npm start`
 
